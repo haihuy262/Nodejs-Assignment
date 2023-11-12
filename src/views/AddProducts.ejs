@@ -13,52 +13,98 @@
   </head>
   <div class="container">
     <h1 class="pagination justify-content-center">Thêm sản phẩm</h1>
-    <form action="/listproducts" id="edit-form">
+    <form action="/addproducts/product" id="add-form" method="post">
       <div class="mb-3 mt-3">
-        <label for="uname" class="form-label">Tên sản phẩm:</label>
-        <input type="text" class="form-control" id="uname" name="uname" />
+        <label for="maSanPham" class="form-label">Mã sản phẩm:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="maSanPham"
+          name="maSanPham"
+        />
+        <div class="valid-feedback">Valid.</div>
+        <div class="invalid-feedback">Please fill out this field.</div>
+      </div>
+      <div class="mb-3 mt-3">
+        <label for="tenSanPham" class="form-label">Tên sản phẩm:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="tenSanPham"
+          name="tenSanPham"
+        />
         <div class="valid-feedback">Valid.</div>
         <div class="invalid-feedback">Please fill out this field.</div>
       </div>
       <div class="mb-3">
-        <label for="pwd" class="form-label">Giá sản phẩm:</label>
-        <input type="password" class="form-control" name="pswd" />
+        <label for="giaSanPham" class="form-label">Giá sản phẩm:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="giaSanPham"
+          name="giaSanPham"
+        />
         <div class="valid-feedback">Valid.</div>
         <div class="invalid-feedback">Please fill out this field.</div>
       </div>
       <div class="mb-3">
-        <label for="pwd" class="form-label">Nhà sản xuất:</label>
-        <input type="password" class="form-control" name="pswd" />
+        <label for="nhaSanXuat" class="form-label">Nhà sản xuất:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nhaSanXuat"
+          name="nhaSanXuat"
+        />
         <div class="valid-feedback">Valid.</div>
         <div class="invalid-feedback">Please fill out this field.</div>
       </div>
       <div class="mb-3">
-        <label for="pwd" class="form-label">Ảnh minh họa:</label>
-        <input type="file" class="form-control" name="pswd" />
+        <label for="anhMinhHoa" class="form-label">Ảnh minh họa:</label>
+        <input
+          type="file"
+          class="form-control"
+          id="anhMinhHoa"
+          name="anhMinhHoa"
+        />
         <div class="valid-feedback">Valid.</div>
         <div class="invalid-feedback">Please fill out this field.</div>
       </div>
       <div class="mb-3">
-        <label for="pwd" class="form-label">Màu Sắc:</label>
-        <input type="text" class="form-control" name="pswd" />
+        <label for="mauSac" class="form-label">Màu Sắc:</label>
+        <input type="text" class="form-control" id="mauSac" name="mauSac" />
         <div class="valid-feedback">Valid.</div>
         <div class="invalid-feedback">Please fill out this field.</div>
       </div>
       <div class="mb-3">
-        <label for="pwd" class="form-label">Loại Sản Phẩm:</label>
-        <input type="text" class="form-control" name="pswd" />
+        <label for="loaiSanPham" class="form-label">Loại Sản Phẩm:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="loaiSanPham"
+          name="loaiSanPham"
+        />
         <div class="valid-feedback">Valid.</div>
         <div class="invalid-feedback">Please fill out this field.</div>
       </div>
       <div class="mb-3">
-        <label for="pwd" class="form-label">Mã Khách Hàng:</label>
-        <input type="text" class="form-control" name="pswd" />
+        <label for="maKhachHang" class="form-label">Mã Khách Hàng:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="maKhachHang"
+          name="maKhachHang"
+        />
         <div class="valid-feedback">Valid.</div>
         <div class="invalid-feedback">Please fill out this field.</div>
       </div>
       <div class="mb-3">
-        <label for="pwd" class="form-label">Tên Khách Hàng:</label>
-        <input type="text" class="form-control" name="pswd" />
+        <label for="tenKhachHang" class="form-label">Tên Khách Hàng:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="tenKhachHang"
+          name="tenKhachHang"
+        />
         <div class="valid-feedback">Valid.</div>
         <div class="invalid-feedback">Please fill out this field.</div>
       </div>
