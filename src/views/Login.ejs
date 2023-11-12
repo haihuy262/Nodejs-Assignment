@@ -13,7 +13,7 @@
   </head>
   <body>
     <!-- Login 8 - Bootstrap Brain Component -->
-    <form action="/homeproducts">
+    <form>
       <section class="bg-light p-3 p-md-4 p-xl-5 min-vh-100">
         <div class="container">
           <div class="row justify-content-center">
@@ -129,6 +129,7 @@
                                 <button
                                   class="btn btn-dark btn-lg"
                                   type="submit"
+                                  onclick="clickLogin()"
                                 >
                                   Log in now
                                 </button>
@@ -165,5 +166,36 @@
       </section>
     </form>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      function clickLogin() {
+        fetch("/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value,
+          }),
+        })
+          .then((response) => {
+            if (response.status == 200) {
+              const userEmail = document.getElementById("email").value;
+              window.location.href = `/homeproducts?email=${encodeURIComponent(
+                userEmail
+              )}`;
+            } else {
+              alert("Wrong account or password");
+            }
+            console.log(response);
+          })
+          .then((data) => {
+            console.log(data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    </script>
   </body>
 </html>
