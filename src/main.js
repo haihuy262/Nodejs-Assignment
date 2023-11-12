@@ -22,6 +22,10 @@ app.get("/listproducts", (req, res) => {
   res.render("ListProducts.ejs");
 });
 
+app.get("/homeproducts", (req, res) => {
+  res.render("HomeProducts.ejs");
+});
+
 app.get("/editproducts", (req, res) => {
   res.render("EditProducts.ejs");
 });
