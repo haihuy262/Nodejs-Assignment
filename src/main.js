@@ -146,33 +146,59 @@ app.post("/login", async (req, res) => {
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "D:\\Server Android\\Nodejs-Assignment\\uploads"); // Thay đổi đường dẫn đến thư mục bạn muốn lưu trữ ảnh
+    cb(null, "D:\\Server Android\\Nodejs-Assignment\\uploads");
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + "-" + file.originalname);
   },
 });
 
-const upload = multer({ storage: storage });
+const fileFilter = function (req, file, cb) {
+  // Check if the file is an image
+  if (!file.mimetype.startsWith("image/")) {
+    return cb(new Error("Only image files are allowed."), false);
+  }
+  // Continue with validation
+  cb(null, true);
+};
+
+const limits = {
+  fileSize: 1024 * 1024 * 2, // 2 MB
+  files: 2, // Allow up to 2 files
+};
+
+const upload = multer({
+  storage: storage,
+  fileFilter: fileFilter,
+  limits: limits,
+});
+
 app.post(
   "/addproducts/product",
-  upload.single("anhMinhHoa"),
+  upload.array("anhMinhHoa", 2), // Use upload.array for multiple files
   async (req, res) => {
     try {
-      // If a file was uploaded, upload to Imgur
-      if (req.file) {
-        const filePath = req.file.path;
+      // If files were uploaded, proceed with the logic
+      if (req.files && req.files.length > 0) {
+        const imgurUploadPromises = req.files.map(async (file) => {
+          const filePath = file.path;
+          // Upload each file to Imgur
+          const imgurUpload = await imgur.uploadFile(filePath);
+          // Remove the local file
+          fs.unlinkSync(filePath);
+          return imgurUpload;
+        });
 
-        // Upload to Imgur
-        const imgurUpload = await imgur.uploadFile(filePath);
+        // Wait for all uploads to complete
+        const imgurUploads = await Promise.all(imgurUploadPromises);
 
-        // Update the product with the Imgur link
+        // Update the product with Imgur links
         const newProduct = new product({
           maSanPham: req.body.maSanPham,
           tenSanPham: req.body.tenSanPham,
           giaSanPham: req.body.giaSanPham,
           nhaSanXuat: req.body.nhaSanXuat,
-          anhMinhHoa: imgurUpload.link,
+          anhMinhHoa: imgurUploads.map((upload) => upload.link),
           mauSac: req.body.mauSac,
           loaiSanPham: req.body.loaiSanPham,
           maKhachHang: req.body.maKhachHang,
@@ -182,13 +208,10 @@ app.post(
         // Save the product to the database
         const result = await newProduct.save();
 
-        // Remove the local file
-        fs.unlinkSync(filePath);
-
         // Redirect to the list of products
         res.redirect("/listproducts");
       } else {
-        // Handle the case when no file is uploaded
+        // Handle the case when no files are uploaded
         res.status(400).send("No files were uploaded.");
       }
     } catch (error) {

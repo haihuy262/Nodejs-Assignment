@@ -4,7 +4,7 @@ const UserSchema = new mongoose.Schema({
   tenSanPham: String,
   giaSanPham: String,
   nhaSanXuat: String,
-  anhMinhHoa: String,
+  anhMinhHoa: [String],
   mauSac: String,
   loaiSanPham: String,
   maKhachHang: String,
