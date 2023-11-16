@@ -13,7 +13,12 @@
   </head>
   <div class="container">
     <h1 class="pagination justify-content-center">Thêm sản phẩm</h1>
-    <form action="/addproducts/product" id="add-form" method="post">
+    <form
+      action="/addproducts/product"
+      id="add-form"
+      method="post"
+      enctype="multipart/form-data"
+    >
       <div class="mb-3 mt-3">
         <label for="maSanPham" class="form-label">Mã sản phẩm:</label>
         <input
@@ -22,8 +27,6 @@
           id="maSanPham"
           name="maSanPham"
         />
-        <div class="valid-feedback">Valid.</div>
-        <div class="invalid-feedback">Please fill out this field.</div>
       </div>
       <div class="mb-3 mt-3">
         <label for="tenSanPham" class="form-label">Tên sản phẩm:</label>
@@ -33,8 +36,6 @@
           id="tenSanPham"
           name="tenSanPham"
         />
-        <div class="valid-feedback">Valid.</div>
-        <div class="invalid-feedback">Please fill out this field.</div>
       </div>
       <div class="mb-3">
         <label for="giaSanPham" class="form-label">Giá sản phẩm:</label>
@@ -44,8 +45,6 @@
           id="giaSanPham"
           name="giaSanPham"
         />
-        <div class="valid-feedback">Valid.</div>
-        <div class="invalid-feedback">Please fill out this field.</div>
       </div>
       <div class="mb-3">
         <label for="nhaSanXuat" class="form-label">Nhà sản xuất:</label>
@@ -55,8 +54,6 @@
           id="nhaSanXuat"
           name="nhaSanXuat"
         />
-        <div class="valid-feedback">Valid.</div>
-        <div class="invalid-feedback">Please fill out this field.</div>
       </div>
       <div class="mb-3">
         <label for="anhMinhHoa" class="form-label">Ảnh minh họa:</label>
@@ -66,14 +63,10 @@
           id="anhMinhHoa"
           name="anhMinhHoa"
         />
-        <div class="valid-feedback">Valid.</div>
-        <div class="invalid-feedback">Please fill out this field.</div>
       </div>
       <div class="mb-3">
         <label for="mauSac" class="form-label">Màu Sắc:</label>
         <input type="text" class="form-control" id="mauSac" name="mauSac" />
-        <div class="valid-feedback">Valid.</div>
-        <div class="invalid-feedback">Please fill out this field.</div>
       </div>
       <div class="mb-3">
         <label for="loaiSanPham" class="form-label">Loại Sản Phẩm:</label>
@@ -83,8 +76,6 @@
           id="loaiSanPham"
           name="loaiSanPham"
         />
-        <div class="valid-feedback">Valid.</div>
-        <div class="invalid-feedback">Please fill out this field.</div>
       </div>
       <div class="mb-3">
         <label for="maKhachHang" class="form-label">Mã Khách Hàng:</label>
@@ -94,8 +85,6 @@
           id="maKhachHang"
           name="maKhachHang"
         />
-        <div class="valid-feedback">Valid.</div>
-        <div class="invalid-feedback">Please fill out this field.</div>
       </div>
       <div class="mb-3">
         <label for="tenKhachHang" class="form-label">Tên Khách Hàng:</label>
@@ -105,8 +94,6 @@
           id="tenKhachHang"
           name="tenKhachHang"
         />
-        <div class="valid-feedback">Valid.</div>
-        <div class="invalid-feedback">Please fill out this field.</div>
       </div>
       <button type="submit" class="btn btn-primary">Thêm</button>
     </form>

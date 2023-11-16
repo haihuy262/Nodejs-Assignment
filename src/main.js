@@ -4,7 +4,9 @@ const user = require("./model/user");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const product = require("./model/product");
-
+const multer = require("multer");
+const fs = require("fs");
+const imgur = require("imgur");
 const app = express();
 const port = 3000;
 
@@ -142,26 +144,59 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.post("/addproducts/product", async (req, res) => {
-  const newProduct = new product({
-    maSanPham: req.body.maSanPham,
-    tenSanPham: req.body.tenSanPham,
-    giaSanPham: req.body.giaSanPham,
-    nhaSanXuat: req.body.nhaSanXuat,
-    anhMinhHoa: req.body.anhMinhHoa,
-    mauSac: req.body.mauSac,
-    loaiSanPham: req.body.loaiSanPham,
-    maKhachHang: req.body.maKhachHang,
-    tenKhachHang: req.body.tenKhachHang,
-  });
-  try {
-    const result = await newProduct.save();
-    res.redirect("/listproducts");
-  } catch (error) {
-    console.error("Lỗi khi thêm sản phẩm:", error);
-    res.status(500).json({ error: "Đã xảy ra lỗi khi thêm sản phẩm." });
-  }
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "D:\\Server Android\\Nodejs-Assignment\\uploads"); // Thay đổi đường dẫn đến thư mục bạn muốn lưu trữ ảnh
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
 });
+
+const upload = multer({ storage: storage });
+app.post(
+  "/addproducts/product",
+  upload.single("anhMinhHoa"),
+  async (req, res) => {
+    try {
+      // If a file was uploaded, upload to Imgur
+      if (req.file) {
+        const filePath = req.file.path;
+
+        // Upload to Imgur
+        const imgurUpload = await imgur.uploadFile(filePath);
+
+        // Update the product with the Imgur link
+        const newProduct = new product({
+          maSanPham: req.body.maSanPham,
+          tenSanPham: req.body.tenSanPham,
+          giaSanPham: req.body.giaSanPham,
+          nhaSanXuat: req.body.nhaSanXuat,
+          anhMinhHoa: imgurUpload.link,
+          mauSac: req.body.mauSac,
+          loaiSanPham: req.body.loaiSanPham,
+          maKhachHang: req.body.maKhachHang,
+          tenKhachHang: req.body.tenKhachHang,
+        });
+
+        // Save the product to the database
+        const result = await newProduct.save();
+
+        // Remove the local file
+        fs.unlinkSync(filePath);
+
+        // Redirect to the list of products
+        res.redirect("/listproducts");
+      } else {
+        // Handle the case when no file is uploaded
+        res.status(400).send("No files were uploaded.");
+      }
+    } catch (error) {
+      console.error("Lỗi khi thêm sản phẩm:", error);
+      res.status(500).json({ error: "Đã xảy ra lỗi khi thêm sản phẩm." });
+    }
+  }
+);
 
 app.delete("/deleteproduct/:productId", async (req, res) => {
   const productId = req.params.productId;
