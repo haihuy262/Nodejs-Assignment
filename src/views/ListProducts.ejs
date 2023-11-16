@@ -52,12 +52,13 @@
               </button>
             </td>
             <td>
-              <a
-                class="nav-link"
-                href="/editproduct/<%= product._id %>"
+              <button
+                class="editButton"
+                data-product-id="<%= product._id %>"
                 style="color: blue"
-                >Edit</a
               >
+                Edit
+              </button>
             </td>
           </tr>
           <% }); %>
@@ -68,6 +69,7 @@
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const deleteButtons = document.querySelectorAll(".deleteButton");
+        const editButtons = document.querySelectorAll(".editButton");
 
         deleteButtons.forEach(function (button) {
           button.addEventListener("click", function () {
@@ -90,6 +92,14 @@
               .catch((error) => {
                 console.error("Lỗi khi xoá sản phẩm:", error);
               });
+          });
+        });
+        editButtons.forEach(function (button) {
+          button.addEventListener("click", function () {
+            const productId = this.getAttribute("data-product-id");
+
+            // Chuyển đến trang chỉnh sửa với productId
+            window.location.href = "/editproducts/" + productId;
           });
         });
       });

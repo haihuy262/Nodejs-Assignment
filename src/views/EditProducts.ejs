@@ -14,52 +14,127 @@
   <body>
     <div class="container">
       <h1 class="pagination justify-content-center">Sửa sản phẩm</h1>
-      <form action="/listproducts" id="edit-form">
+      <form
+        id="edit-form"
+        action="/editproducts/<%= productToEdit._id %>"
+        method="post"
+      >
         <div class="mb-3 mt-3">
-          <label for="uname" class="form-label">Tên sản phẩm:</label>
-          <input type="text" class="form-control" id="uname" name="uname" />
+          <input
+            type="hidden"
+            class="form-control"
+            id="idObject"
+            name="idObject"
+            readonly
+          />
+          <div class="valid-feedback">Valid.</div>
+          <div class="invalid-feedback">Please fill out this field.</div>
+        </div>
+        <div class="mb-3 mt-3">
+          <label for="maSanPham" class="form-label">Mã sản phẩm:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="maSanPham"
+            name="maSanPham"
+            value="<%= productToEdit.maSanPham %>"
+          />
+          <div class="valid-feedback">Valid.</div>
+          <div class="invalid-feedback">Please fill out this field.</div>
+        </div>
+        <div class="mb-3 mt-3">
+          <label for="tenSanPham" class="form-label">Tên sản phẩm:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="tenSanPham"
+            name="tenSanPham"
+            value="<%= productToEdit.tenSanPham %>"
+          />
           <div class="valid-feedback">Valid.</div>
           <div class="invalid-feedback">Please fill out this field.</div>
         </div>
         <div class="mb-3">
-          <label for="pwd" class="form-label">Giá sản phẩm:</label>
-          <input type="password" class="form-control" name="pswd" />
+          <label for="giaSanPham" class="form-label">Giá sản phẩm:</label>
+          <input
+            type="text"
+            class="form-control"
+            name="giaSanPham"
+            id="giaSanPham"
+            value="<%= productToEdit.giaSanPham %>"
+          />
           <div class="valid-feedback">Valid.</div>
           <div class="invalid-feedback">Please fill out this field.</div>
         </div>
         <div class="mb-3">
-          <label for="pwd" class="form-label">Nhà sản xuất:</label>
-          <input type="password" class="form-control" name="pswd" />
+          <label for="nhaSanXuat" class="form-label">Nhà sản xuất:</label>
+          <input
+            type="text"
+            class="form-control"
+            name="nhaSanXuat"
+            id="nhaSanXuat"
+            value="<%= productToEdit.nhaSanXuat %>"
+          />
           <div class="valid-feedback">Valid.</div>
           <div class="invalid-feedback">Please fill out this field.</div>
         </div>
         <div class="mb-3">
-          <label for="pwd" class="form-label">Ảnh minh họa:</label>
-          <input type="file" class="form-control" name="pswd" />
+          <label for="anhMinhHoa" class="form-label">Ảnh minh họa:</label>
+          <input
+            type="file"
+            class="form-control"
+            name="anhMinhHoa"
+            id="anhMinhHoa"
+            value="<%= productToEdit.anhMinhHoa %>"
+          />
           <div class="valid-feedback">Valid.</div>
           <div class="invalid-feedback">Please fill out this field.</div>
         </div>
         <div class="mb-3">
-          <label for="pwd" class="form-label">Màu Sắc:</label>
-          <input type="text" class="form-control" name="pswd" />
+          <label for="mauSac" class="form-label">Màu Sắc:</label>
+          <input
+            type="text"
+            class="form-control"
+            name="mauSac"
+            id="mauSac"
+            value="<%= productToEdit.mauSac %>"
+          />
           <div class="valid-feedback">Valid.</div>
           <div class="invalid-feedback">Please fill out this field.</div>
         </div>
         <div class="mb-3">
-          <label for="pwd" class="form-label">Loại Sản Phẩm:</label>
-          <input type="text" class="form-control" name="pswd" />
+          <label for="loaiSanPham" class="form-label">Loại Sản Phẩm:</label>
+          <input
+            type="text"
+            class="form-control"
+            name="loaiSanPham"
+            id="loaiSanPham"
+            value="<%= productToEdit.loaiSanPham %>"
+          />
           <div class="valid-feedback">Valid.</div>
           <div class="invalid-feedback">Please fill out this field.</div>
         </div>
         <div class="mb-3">
-          <label for="pwd" class="form-label">Mã Khách Hàng:</label>
-          <input type="text" class="form-control" name="pswd" />
+          <label for="maKhachHang" class="form-label">Mã Khách Hàng:</label>
+          <input
+            type="text"
+            class="form-control"
+            name="maKhachHang"
+            id="maKhachHang"
+            value="<%= productToEdit.maKhachHang %>"
+          />
           <div class="valid-feedback">Valid.</div>
           <div class="invalid-feedback">Please fill out this field.</div>
         </div>
         <div class="mb-3">
-          <label for="pwd" class="form-label">Tên Khách Hàng:</label>
-          <input type="text" class="form-control" name="pswd" />
+          <label for="tenKhachHang" class="form-label">Tên Khách Hàng:</label>
+          <input
+            type="text"
+            class="form-control"
+            name="tenKhachHang"
+            id="tenKhachHang"
+            value="<%= productToEdit.tenKhachHang %>"
+          />
           <div class="valid-feedback">Valid.</div>
           <div class="invalid-feedback">Please fill out this field.</div>
         </div>

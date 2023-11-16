@@ -50,8 +50,60 @@ app.get("/homeproducts", (req, res) => {
   res.render("HomeProducts.ejs");
 });
 
-app.get("/editproducts", (req, res) => {
-  res.render("EditProducts.ejs");
+app.get("/editproducts/:productId", async (req, res) => {
+  const productId = req.params.productId;
+
+  try {
+    // Retrieve the product information based on productId
+    const productToEdit = await product.findById(productId);
+
+    if (!productToEdit) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Product not found." });
+    }
+
+    res.render("EditProducts.ejs", { productToEdit });
+  } catch (error) {
+    console.error("Error retrieving product information:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error retrieving product information.",
+    });
+  }
+});
+
+app.post("/editproducts/:productId", async (req, res) => {
+  const productId = req.params.productId;
+  const {
+    maSanPham,
+    tenSanPham,
+    giaSanPham,
+    nhaSanXuat,
+    anhMinhHoa,
+    mauSac,
+    loaiSanPham,
+    maKhachHang,
+    tenKhachHang,
+  } = req.body;
+
+  try {
+    await product.findByIdAndUpdate(productId, {
+      maSanPham,
+      tenSanPham,
+      giaSanPham,
+      nhaSanXuat,
+      anhMinhHoa,
+      mauSac,
+      loaiSanPham,
+      maKhachHang,
+      tenKhachHang,
+    });
+    res.redirect("/listproducts");
+  } catch (error) {
+    console.error(error);
+    res.redirect("/listproducts");
+  }
 });
 
 app.post("/register/user", async (req, res) => {
