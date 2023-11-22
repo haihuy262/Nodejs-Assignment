@@ -75,8 +75,11 @@ app.get("/editproducts/:productId", async (req, res) => {
   }
 });
 
+// Xử lý yêu cầu HTTP POST tới đường dẫn "/editproducts/:productId"
 app.post("/editproducts/:productId", async (req, res) => {
+  // Lấy thông tin productId từ tham số của yêu cầu
   const productId = req.params.productId;
+  // Lấy thông tin sản phẩm từ dữ liệu trong yêu cầu
   const {
     maSanPham,
     tenSanPham,
@@ -88,8 +91,8 @@ app.post("/editproducts/:productId", async (req, res) => {
     maKhachHang,
     tenKhachHang,
   } = req.body;
-
   try {
+    // Cập nhật thông tin sản phẩm trong cơ sở dữ liệu dựa trên productId
     await product.findByIdAndUpdate(productId, {
       maSanPham,
       tenSanPham,
@@ -101,25 +104,34 @@ app.post("/editproducts/:productId", async (req, res) => {
       maKhachHang,
       tenKhachHang,
     });
+    // Chuyển hướng người dùng đến trang "/listproducts" sau khi cập nhật thành công
     res.redirect("/listproducts");
   } catch (error) {
+    // Nếu có lỗi, in thông báo lỗi ra console và chuyển hướng người dùng đến trang "/listproducts"
     console.error(error);
     res.redirect("/listproducts");
   }
 });
 
+// Xử lý yêu cầu HTTP POST tới đường dẫn "/register/user"
 app.post("/register/user", async (req, res) => {
+  // In ra nội dung của yêu cầu nhận được
   console.log(req.body);
+  // Tạo một đối tượng người dùng mới từ dữ liệu trong yêu cầu
   const newUser = new user({
     username: req.body.username,
     email: req.body.email,
     password: req.body.password,
   });
   try {
+    // Lưu đối tượng người dùng mới vào cơ sở dữ liệu và đợi cho đến khi hoàn thành
     const result = await newUser.save();
+    // Trả về kết quả thành công dưới dạng JSON
     res.json(result);
   } catch (error) {
+    // Nếu có lỗi trong quá trình lưu trữ
     console.error("Lỗi khi đăng ký người dùng:", error);
+    // Trả về phản hồi lỗi với mã trạng thái 500 và thông báo lỗi
     res.status(500).json({ error: "Đã xảy ra lỗi khi đăng ký người dùng." });
   }
 });
