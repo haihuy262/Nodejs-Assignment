@@ -4,6 +4,7 @@ const user = require("./model/user");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const product = require("./model/product");
+const order = require("./model/order");
 const multer = require("multer");
 const fs = require("fs");
 const imgur = require("imgur");
@@ -41,7 +42,7 @@ app.get("/addproducts", (req, res) => {
 app.get("/listproducts", async (req, res) => {
   try {
     const products = await product.find();
-    res.render("ListProducts.ejs", { products });
+    res.json({ products });
   } catch (error) {
     console.error("Lỗi khi truy vấn sản phẩm:", error);
     res.status(500).send("Lỗi khi truy vấn sản phẩm");
@@ -158,7 +159,7 @@ app.post("/login", async (req, res) => {
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "D:\\Server Android\\Nodejs-Assignment\\uploads");
+    cb(null, "uploads");
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + "-" + file.originalname);
@@ -232,6 +233,24 @@ app.post(
     }
   }
 );
+
+app.post("/api/orders", async (req, res) => {
+  const { productId, quantity, totalPrice, image, productName } = req.body;
+  const newOrder = new order({
+    productId,
+    quantity,
+    totalPrice,
+    image,
+    productName,
+  });
+  const result = await newOrder.save();
+  const products = await product.findById(productId);
+  if (products) {
+    products.maKhachHang -= quantity;
+    await products.save();
+  }
+  res.json(result);
+});
 
 app.delete("/deleteproduct/:productId", async (req, res) => {
   const productId = req.params.productId;
