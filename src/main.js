@@ -5,9 +5,11 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const product = require("./model/product");
 const order = require("./model/order");
+const coins = require("./model/coin");
 const multer = require("multer");
 const fs = require("fs");
 const imgur = require("imgur");
+const coin = require("./model/coin");
 const app = express();
 const port = 3000;
 
@@ -47,6 +49,25 @@ app.get("/listproducts", async (req, res) => {
     console.error("Lỗi khi truy vấn sản phẩm:", error);
     res.status(500).send("Lỗi khi truy vấn sản phẩm");
   }
+});
+app.get("/api/listproducts", async (req, res) => {
+  try {
+    const products = await product.find();
+    res.render("ListProducts", { products });
+  } catch (error) {
+    console.error("Lỗi khi truy vấn sản phẩm:", error);
+    res.status(500).send("Lỗi khi truy vấn sản phẩm");
+  }
+});
+
+app.get("/api/history", async (req, res) => {
+  const orders = await order.find();
+  res.json({ orders });
+});
+
+app.get("/api/usecoin", async (req, res) => {
+  const useCoin = await coin.find();
+  res.json({ useCoin });
 });
 
 app.get("/homeproducts", (req, res) => {
@@ -215,14 +236,14 @@ app.post(
           mauSac: req.body.mauSac,
           loaiSanPham: req.body.loaiSanPham,
           maKhachHang: req.body.maKhachHang,
-          tenKhachHang: req.body.tenKhachHang,
+          tenKhachHang: req.body.coin,
         });
 
         // Save the product to the database
         const result = await newProduct.save();
 
         // Redirect to the list of products
-        res.redirect("/listproducts");
+        res.redirect("/api/listproducts");
       } else {
         // Handle the case when no files are uploaded
         res.status(400).send("No files were uploaded.");
@@ -249,6 +270,15 @@ app.post("/api/orders", async (req, res) => {
     products.maKhachHang -= quantity;
     await products.save();
   }
+  res.json(result);
+});
+
+app.post("/api/coin", async (req, res) => {
+  const { coin } = req.body;
+  const newCoin = new coins({
+    coin,
+  });
+  const result = await newCoin.save();
   res.json(result);
 });
 
